@@ -1253,7 +1253,6 @@
 {"id": 2532, "bloque": 13, "texto": "Los sueños son los deseos que dormidos en silencio leemos."},
 {"id": 2533, "bloque": 13, "texto": "Recuerda que el espacio que ocupan tus lágrimas es el vacío que no pueden llenar tus lágrimas."},
 {"id": 2534, "bloque": 13, "texto": "La solución a los problemas de la sociedad no está en la legislación, sino en una población que tenga buena educación."},
-[
   {"id": 2535, "bloque": 14, "texto": "Hay personas cuya presencia sabe a ausencia."},
   {"id": 2536, "bloque": 14, "texto": "No te lamentes por los que se van, que cuando te necesiten, volverán."},
   {"id": 2537, "bloque": 14, "texto": "Puede llegar a convertirse la soledad, en una peligrosa enfermedad."},
@@ -1309,5 +1308,4 @@
   {"id": 2587, "bloque": 14, "texto": "Si lo que pensamos y sentimos es lo más importante que tenemos, deberíamos protegernos de quien no sabe valorarnos."},
   {"id": 2588, "bloque": 14, "texto": "La peor soledad no es aquella que el que vive solo siente, sino aquella que padece el que está siempre rodeado de gente."},
   {"id": 2589, "bloque": 14, "texto": "El silencio, unas veces representa el vacío, y otras el espacio necesario."}
-]
 ]
