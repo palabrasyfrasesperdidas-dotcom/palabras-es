@@ -263,7 +263,6 @@
         bgImg.onload = () => {
             adjustCanvasSize(bgImg.naturalWidth, bgImg.naturalHeight);
             drawCanvasFrame(bgImg, item.texto);
-            // Intentar cargar vídeo; si falla, se mantiene la imagen estática cargada arriba
             tryLoadVideo(videoPath, item.texto, bgImg);
         };
 
@@ -306,7 +305,6 @@
         };
 
         video.onerror = () => {
-            // Si el vídeo falla, se queda estática la imagen por defecto
             drawCanvasFrame(fallbackImg, text);
         };
     }
@@ -382,7 +380,7 @@
         if (homeBtn) {
             homeBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.href = "../"; // Vuelve a la Landing principal
+                window.location.href = "https://palabrasyfrasesperdidas-dotcom.github.io/"; // Vuelve a la Landing principal con la URL absoluta correcta
             });
         }
 
