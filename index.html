@@ -76,7 +76,7 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             width: 100%;
         }
         select, button {
@@ -119,8 +119,7 @@
         .info-panel {
             margin-top: 15px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: center;
             align-items: center;
             width: 100%;
             max-width: 480px;
@@ -138,14 +137,14 @@
             z-index: 10;
         }
 
-        /* Estilos para los botones de interacción (Huella y Rumbo) */
+        /* Estilos para la botonera de interacción superior */
         .interaccion-container {
             display: flex;
             gap: 15px;
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin-top: 5px;
+            margin-bottom: 20px;
         }
 
         .btn-accion {
@@ -197,6 +196,9 @@
             <button id="randomBtn">🎲 Aleatoria</button>
         </div>
 
+        <!-- Controles de interacción agrupados arriba -->
+        <div id="botonesAccionContainer"></div>
+
         <div class="canvas-container">
             <div id="loading">Cargando...</div>
             <canvas id="cardCanvas"></canvas>
@@ -204,17 +206,13 @@
 
         <div class="info-panel">
             <span id="huellaCounter">--</span>
-            <!-- Contenedor dinámico para los botones de Huella y Rumbo de la frase actual -->
-            <div id="botonesAccionContainer"></div>
         </div>
     </div>
 
 <script>
-    // Configuración de JSONBin.io
     const BIN_ID = "6a92fe69f5f4af5e2951f6fb";
     const API_KEY = "$2a$10$cjWB6UsaBPWauztsla0YPOSy9cQHEcoA7iVzbdmOXpDrwNk6gf87C";
 
-    // Estrictamente 14 bloques
     const blockNamesES = [
         "Bloque 1: Geometría del destino",
         "Bloque 2: Arquitectura del alma",
@@ -330,7 +328,7 @@
         if (prevBtn) prevBtn.disabled = currentIndex === 0;
         if (nextBtn) nextBtn.disabled = currentIndex === currentFilteredFrases.length - 1;
 
-        // Renderizar los botones de interacción debajo de la tarjeta
+        // Renderizar los botones de interacción arriba, justo debajo de la navegación
         if (botonesAccionContainer) {
             botonesAccionContainer.innerHTML = `
                 <div class="interaccion-container">
@@ -362,7 +360,6 @@
         };
     }
 
-    // Funciones de sincronización y almacenamiento local para Huella y Rumbo
     async function actualizarEstadoUIInteraccion(idUnico) {
         if (localStorage.getItem(`huella_${idUnico}`)) {
             const btn = document.getElementById(`btn-huella-${idUnico}`);
