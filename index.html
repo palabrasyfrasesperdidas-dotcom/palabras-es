@@ -157,13 +157,13 @@
             font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.25s ease;
         }
 
         .btn-accion svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: currentColor;
             flex-shrink: 0;
         }
@@ -335,7 +335,7 @@
         if (prevBtn) prevBtn.disabled = currentIndex === 0;
         if (nextBtn) nextBtn.disabled = currentIndex === currentFilteredFrases.length - 1;
 
-        // Renderizar los botones de interacción arriba con un icono SVG robusto para la brújula
+        // Renderizar los botones de interacción con un icono de brújula/rosa de los vientos detallado
         if (botonesAccionContainer) {
             botonesAccionContainer.innerHTML = `
                 <div class="interaccion-container">
@@ -343,7 +343,7 @@
                         ⭐ Dejar huella (<span id="count-huella-${idUnico}">0</span>)
                     </button>
                     <button class="btn-accion" id="btn-rumbo-${idUnico}" onclick="alternarRumbo('${idUnico}')">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.5-3.5-3.5-7.5-7.5 3.5 3.5 7.5zm3.75-5.25a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                         Guardar ruta
                     </button>
                 </div>
@@ -599,3 +599,4 @@
 </script>
 </body>
 </html>
+
