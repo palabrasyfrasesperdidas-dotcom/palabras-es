@@ -119,7 +119,8 @@
         .info-panel {
             margin-top: 15px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
             align-items: center;
             width: 100%;
             max-width: 480px;
@@ -135,6 +136,48 @@
             border-radius: 8px;
             display: none;
             z-index: 10;
+        }
+
+        /* Estilos para los botones de interacción (Huella y Rumbo) */
+        .interaccion-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .btn-accion {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #bbb;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-accion:hover {
+            border-color: #d4af37;
+            color: #fff;
+            background: #2a2a2a;
+        }
+
+        .btn-accion.activo-huella {
+            border-color: #e67e22;
+            color: #e67e22;
+            background: rgba(230, 126, 34, 0.05);
+        }
+
+        .btn-accion.activo-rumbo {
+            border-color: #3498db;
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.05);
         }
     </style>
 </head>
@@ -161,10 +204,16 @@
 
         <div class="info-panel">
             <span id="huellaCounter">--</span>
+            <!-- Contenedor dinámico para los botones de Huella y Rumbo de la frase actual -->
+            <div id="botonesAccionContainer"></div>
         </div>
     </div>
 
 <script>
+    // Configuración de JSONBin.io
+    const BIN_ID = "6a92fe69f5f4af5e2951f6fb";
+    const API_KEY = "$2a$10$cjWB6UsaBPWauztsla0YPOSy9cQHEcoA7iVzbdmOXpDrwNk6gf87C";
+
     // Estrictamente 14 bloques
     const blockNamesES = [
         "Bloque 1: Geometría del destino",
@@ -189,7 +238,7 @@
     let animationFrameId = null;
     let currentVideoElem = null;
 
-    let canvas, ctx, blockSelect, prevBtn, nextBtn, randomBtn, homeBtn, huellaCounter, loadingElem;
+    let canvas, ctx, blockSelect, prevBtn, nextBtn, randomBtn, homeBtn, huellaCounter, loadingElem, botonesAccionContainer;
 
     function populateSelect() {
         if (!blockSelect) return;
@@ -244,6 +293,7 @@
         if (currentFilteredFrases.length === 0) {
             stopAnimation();
             if (huellaCounter) huellaCounter.textContent = "Sin huellas en este bloque";
+            if (botonesAccionContainer) botonesAccionContainer.innerHTML = "";
             if (ctx && canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
             return;
         }
@@ -272,12 +322,28 @@
 
         const item = currentFilteredFrases[currentIndex];
         const currentBlockNum = Number(item.bloque || item.block);
+        const idUnico = `es_${item.id || (currentBlockNum + '_' + currentIndex)}`;
 
         if (huellaCounter) {
             huellaCounter.textContent = `Huella ${item.id} (${currentIndex + 1} / ${currentFilteredFrases.length})`;
         }
         if (prevBtn) prevBtn.disabled = currentIndex === 0;
         if (nextBtn) nextBtn.disabled = currentIndex === currentFilteredFrases.length - 1;
+
+        // Renderizar los botones de interacción debajo de la tarjeta
+        if (botonesAccionContainer) {
+            botonesAccionContainer.innerHTML = `
+                <div class="interaccion-container">
+                    <button class="btn-accion" id="btn-huella-${idUnico}" onclick="darHuella('${idUnico}')">
+                        ⭐ Dejar huella (<span id="count-huella-${idUnico}">0</span>)
+                    </button>
+                    <button class="btn-accion" id="btn-rumbo-${idUnico}" onclick="alternarRumbo('${idUnico}')">
+                        🧭 Rumbo
+                    </button>
+                </div>
+            `;
+            actualizarEstadoUIInteraccion(idUnico);
+        }
 
         const imgPath = `plantilla${currentBlockNum}.png`;
         const videoPath = `plantilla${currentBlockNum}_video.mp4`;
@@ -294,6 +360,77 @@
         bgImg.onerror = () => {
             drawTextOnly(item.texto);
         };
+    }
+
+    // Funciones de sincronización y almacenamiento local para Huella y Rumbo
+    async function actualizarEstadoUIInteraccion(idUnico) {
+        if (localStorage.getItem(`huella_${idUnico}`)) {
+            const btn = document.getElementById(`btn-huella-${idUnico}`);
+            if (btn) btn.classList.add('activo-huella');
+        }
+        if (localStorage.getItem(`rumbo_${idUnico}`)) {
+            const btnRumbo = document.getElementById(`btn-rumbo-${idUnico}`);
+            if (btnRumbo) btnRumbo.classList.add('activo-rumbo');
+        }
+
+        try {
+            let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: { 'X-Master-Key': API_KEY }
+            });
+            let data = await response.json();
+            let contadores = data.record || {};
+            
+            const contadorSpan = document.getElementById(`count-huella-${idUnico}`);
+            if (contadorSpan) {
+                contadorSpan.textContent = contadores[idUnico] || 0;
+            }
+        } catch (e) {
+            console.error("No se pudieron cargar las huellas", e);
+        }
+    }
+
+    async function darHuella(idUnico) {
+        if (localStorage.getItem(`huella_${idUnico}`)) return;
+
+        try {
+            let response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: { 'X-Master-Key': API_KEY }
+            });
+            let data = await response.json();
+            let contadores = data.record || {};
+
+            contadores[idUnico] = (contadores[idUnico] || 0) + 1;
+
+            await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': API_KEY
+                },
+                body: JSON.stringify(contadores)
+            });
+
+            localStorage.setItem(`huella_${idUnico}`, 'true');
+            const btn = document.getElementById(`btn-huella-${idUnico}`);
+            const countSpan = document.getElementById(`count-huella-${idUnico}`);
+            if (btn) btn.classList.add('activo-huella');
+            if (countSpan) countSpan.textContent = contadores[idUnico];
+
+        } catch (e) {
+            console.error("Error al registrar la huella", e);
+        }
+    }
+
+    function alternarRumbo(idUnico) {
+        const btnRumbo = document.getElementById(`btn-rumbo-${idUnico}`);
+        
+        if (localStorage.getItem(`rumbo_${idUnico}`)) {
+            localStorage.removeItem(`rumbo_${idUnico}`);
+            if (btnRumbo) btnRumbo.classList.remove('activo-rumbo');
+        } else {
+            localStorage.setItem(`rumbo_${idUnico}`, 'true');
+            if (btnRumbo) btnRumbo.classList.add('activo-rumbo');
+        }
     }
 
     function adjustCanvasSize(width, height) {
@@ -399,6 +536,7 @@
         homeBtn = document.getElementById('homeBtn');
         huellaCounter = document.getElementById('huellaCounter');
         loadingElem = document.getElementById('loading');
+        botonesAccionContainer = document.getElementById('botonesAccionContainer');
 
         populateSelect();
 
