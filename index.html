@@ -47,48 +47,58 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px 15px;
         }
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
         }
         h1 {
-            font-size: 2rem;
-            margin-bottom: 5px;
+            font-size: 1.8rem;
+            margin-bottom: 0;
             color: #e0e0e0;
-        }
-        p.subtitle {
-            font-size: 1rem;
-            color: #888888;
         }
         .viewer-section {
             display: flex;
             width: 100%;
-            max-width: 900px;
+            max-width: 650px;
             flex-direction: column;
             align-items: center;
         }
-        .controls {
+        
+        /* Contenedor de la Opción A: Botones estructurados en 3 filas */
+        .controls-wrapper {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .controls-row {
+            display: flex;
             justify-content: center;
-            margin-bottom: 15px;
+            gap: 8px;
+            flex-wrap: wrap;
             width: 100%;
         }
+
         select, button {
             background-color: #1a1a1a;
             color: #ffffff;
             border: 1px solid #333333;
-            padding: 10px 16px;
-            font-size: 0.95rem;
+            padding: 7px 12px;
+            font-size: 0.85rem;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s;
             touch-action: manipulation;
+        }
+        select.block-select {
+            flex-grow: 1;
+            max-width: 340px;
+            font-family: 'Montserrat', sans-serif;
         }
         select:hover, button:hover:not(:disabled) {
             background-color: #2a2a2a;
@@ -98,14 +108,27 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
+
+        /* Estilo sutil para el botón de compra del libro en papel */
+        .btn-book {
+            background-color: #141a14;
+            border-color: #2e4a2e;
+            color: #b8f2b8;
+        }
+        .btn-book:hover {
+            background-color: #1c2e1c;
+            border-color: #436b43;
+        }
+
+        /* Contenedor del vídeo optimizado ligeramente más compacto para evitar scroll */
         .canvas-container {
             position: relative;
             width: 100%;
-            max-width: 480px;
+            max-width: 420px;
             background-color: #000000;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -117,22 +140,22 @@
             display: block;
         }
         .info-panel {
-            margin-top: 15px;
+            margin-top: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 480px;
-            font-size: 0.9rem;
-            color: #aaaaaa;
+            max-width: 420px;
+            font-size: 0.85rem;
+            color: #888888;
         }
         #loading {
             position: absolute;
             color: #ffffff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: rgba(0,0,0,0.7);
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             display: none;
             z-index: 10;
         }
@@ -140,30 +163,29 @@
         /* Estilos para la botonera de interacción superior */
         .interaccion-container {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
             align-items: center;
             width: 100%;
-            margin-bottom: 20px;
         }
 
         .btn-accion {
             background: #1a1a1a;
             border: 1px solid #444;
             color: #bbb;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.25s ease;
         }
 
         .btn-accion svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             fill: currentColor;
             flex-shrink: 0;
         }
@@ -185,26 +207,41 @@
             color: #3498db;
             background: rgba(52, 152, 219, 0.05);
         }
+
+        @media (max-width: 580px) {
+            h1 { font-size: 1.5rem; }
+            select, button { padding: 6px 10px; font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Palabras y frases perdidas</h1>
-        <p class="subtitle">Colección de huellas y reflexiones</p>
     </header>
 
     <div class="viewer-section">
-        <div class="controls">
-            <button id="homeBtn">🏠 Home</button>
-            <select id="blockSelect"></select>
-            <button id="prevBtn">&larr; Anterior</button>
-            <button id="nextBtn">Siguiente &rarr;</button>
-            <button id="randomBtn">🎲 Aleatoria</button>
+        <!-- Controles estructurados en 3 filas (Opción A) -->
+        <div class="controls-wrapper">
+            <!-- Fila 1: Home y Desplegable por bloques -->
+            <div class="controls-row">
+                <button id="homeBtn">🏠 Home</button>
+                <select id="blockSelect" class="block-select"></select>
+            </div>
+            <!-- Fila 2: Anterior, Siguiente y Aleatoria -->
+            <div class="controls-row">
+                <button id="prevBtn">&larr; Anterior</button>
+                <button id="nextBtn">Siguiente &rarr;</button>
+                <button id="randomBtn">🎲 Aleatoria</button>
+            </div>
+            <!-- Fila 3: Botones de interacción (Huella, Ruta) y enlace al libro en papel -->
+            <div class="controls-row" id="botonesAccionContainer"></div>
+            <div class="controls-row">
+                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" style="text-decoration: none; width: 100%;">
+                    <button class="btn-book" style="width: 100%;">📖 ¿Deseas el libro en papel?</button>
+                </a>
+            </div>
         </div>
-
-        <!-- Controles de interacción agrupados arriba -->
-        <div id="botonesAccionContainer"></div>
 
         <div class="canvas-container">
             <div id="loading">Cargando...</div>
@@ -335,7 +372,7 @@
         if (prevBtn) prevBtn.disabled = currentIndex === 0;
         if (nextBtn) nextBtn.disabled = currentIndex === currentFilteredFrases.length - 1;
 
-        // Renderizar los botones de interacción con un icono de brújula/rosa de los vientos detallado
+        // Renderizar los botones de interacción (fila 3 dentro del wrapper)
         if (botonesAccionContainer) {
             botonesAccionContainer.innerHTML = `
                 <div class="interaccion-container">
@@ -501,9 +538,10 @@
         const x = canvas.width / 2;
         const y = canvas.height * 0.46;
 
-        let fontSize = Math.round(canvas.width * 0.038);
-        if (text.length > 150) fontSize = Math.round(canvas.width * 0.032);
-        if (text.length > 250) fontSize = Math.round(canvas.width * 0.027);
+        // Tamaño de letra ligeramente superior y optimizado para legibilidad dentro de la plantilla
+        let fontSize = Math.round(canvas.width * 0.041);
+        if (text.length > 150) fontSize = Math.round(canvas.width * 0.035);
+        if (text.length > 250) fontSize = Math.round(canvas.width * 0.030);
 
         ctx.font = `400 ${fontSize}px 'Montserrat', sans-serif`;
 
@@ -599,4 +637,3 @@
 </script>
 </body>
 </html>
-
