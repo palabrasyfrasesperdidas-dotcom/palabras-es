@@ -49,14 +49,54 @@
             min-height: 100vh;
             padding: 10px 15px;
         }
+
+        /* Barra de navegación superior independiente y discreta */
+        .top-navbar {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            max-width: 650px;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .btn-navbar {
+            background-color: #141414;
+            border: 1px solid #2a2a2a;
+            color: #cccccc;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-navbar:hover {
+            background-color: #222222;
+            border-color: #444444;
+            color: #ffffff;
+        }
+        .btn-navbar.book-nav {
+            background-color: #121d12;
+            border-color: #233d23;
+            color: #a3d9a3;
+        }
+        .btn-navbar.book-nav:hover {
+            background-color: #1a2d1a;
+            border-color: #386138;
+        }
+
         header {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             width: 100%;
             max-width: 800px;
         }
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 0;
             color: #e0e0e0;
         }
@@ -68,7 +108,7 @@
             align-items: center;
         }
         
-        /* Controles ajustados al ancho del canvas */
+        /* Controles limpios centrados exclusivamente en la lectura */
         .controls-wrapper {
             display: flex;
             flex-direction: column;
@@ -107,36 +147,6 @@
         button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
-        }
-
-        /* Botones superiores con texto claro y equilibrados */
-        .btn-top-nav {
-            background-color: #1a1a1a;
-            border: 1px solid #333333;
-            color: #ffffff;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 6px 10px;
-            font-size: 0.8rem;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        .btn-top-nav:hover {
-            background-color: #2a2a2a;
-            border-color: #555555;
-        }
-        .btn-book-top {
-            background-color: #141a14;
-            border-color: #2e4a2e;
-            color: #b8f2b8;
-        }
-        .btn-book-top:hover {
-            background-color: #1c2e1c;
-            border-color: #436b43;
         }
 
         /* Contenedor del vídeo optimizado a 340px */
@@ -229,38 +239,39 @@
         }
 
         @media (max-width: 580px) {
-            h1 { font-size: 1.4rem; }
+            h1 { font-size: 1.3rem; }
             select, button { padding: 5px 8px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Barra de navegación superior independiente -->
+    <div class="top-navbar">
+        <button id="homeBtn" class="btn-navbar">🏠 Home</button>
+        <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" class="btn-navbar book-nav">
+            📖 Libro en papel
+        </a>
+    </div>
+
     <header>
         <h1>Palabras y frases perdidas</h1>
     </header>
 
     <div class="viewer-section">
-        <!-- Controles estructurados -->
+        <!-- Controles limpios -->
         <div class="controls-wrapper">
-            <!-- Fila 1: Botón Home y Botón Libro en Papel con texto -->
-            <div class="controls-row">
-                <button id="homeBtn" class="btn-top-nav">🏠 Home</button>
-                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" class="btn-top-nav btn-book-top">
-                    📖 Libro en papel
-                </a>
-            </div>
-            <!-- Fila 2: Selector de bloques -->
+            <!-- Fila 1: Selector de bloques -->
             <div class="controls-row">
                 <select id="blockSelect" class="block-select"></select>
             </div>
-            <!-- Fila 3: Anterior, Siguiente y Aleatoria -->
+            <!-- Fila 2: Anterior, Siguiente y Aleatoria -->
             <div class="controls-row">
                 <button id="prevBtn">&larr; Anterior</button>
                 <button id="nextBtn">Siguiente &rarr;</button>
                 <button id="randomBtn">🎲 Aleatoria</button>
             </div>
-            <!-- Fila 4: Botones de interacción (Huella, Ruta) -->
+            <!-- Fila 3: Botones de interacción (Huella, Ruta) -->
             <div class="controls-row" id="botonesAccionContainer"></div>
         </div>
 
