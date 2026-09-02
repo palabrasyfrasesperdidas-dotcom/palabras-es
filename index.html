@@ -47,16 +47,16 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 12px 15px;
+            padding: 10px 15px;
         }
         header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             width: 100%;
             max-width: 800px;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 0;
             color: #e0e0e0;
         }
@@ -68,19 +68,19 @@
             align-items: center;
         }
         
-        /* Contenedor de la Opción A: Botones estructurados en 3 filas */
+        /* Controles ajustados al nuevo ancho del canvas */
         .controls-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
-            max-width: 420px;
-            margin-bottom: 12px;
+            max-width: 340px;
+            margin-bottom: 10px;
         }
         .controls-row {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             width: 100%;
         }
@@ -89,8 +89,8 @@
             background-color: #1a1a1a;
             color: #ffffff;
             border: 1px solid #333333;
-            padding: 7px 12px;
-            font-size: 0.85rem;
+            padding: 6px 10px;
+            font-size: 0.8rem;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s;
@@ -98,7 +98,6 @@
         }
         select.block-select {
             flex-grow: 1;
-            max-width: 340px;
             font-family: 'Montserrat', sans-serif;
         }
         select:hover, button:hover:not(:disabled) {
@@ -110,23 +109,28 @@
             cursor: not-allowed;
         }
 
-        /* Estilo sutil para el botón de compra del libro en papel ajustado al ancho del canvas */
-        .btn-book {
+        /* Botón de compra cuadrado ubicado junto a Home */
+        .btn-book-square {
             background-color: #141a14;
             border-color: #2e4a2e;
             color: #b8f2b8;
-            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+            font-size: 1rem;
         }
-        .btn-book:hover {
+        .btn-book-square:hover {
             background-color: #1c2e1c;
             border-color: #436b43;
         }
 
-        /* Contenedor del vídeo optimizado ligeramente más compacto para evitar scroll */
+        /* Contenedor del vídeo optimizado a 340px para ganar espacio vertical */
         .canvas-container {
             position: relative;
             width: 100%;
-            max-width: 420px;
+            max-width: 340px;
             background-color: #000000;
             border-radius: 10px;
             overflow: hidden;
@@ -142,30 +146,29 @@
             display: block;
         }
         .info-panel {
-            margin-top: 10px;
+            margin-top: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 420px;
-            font-size: 0.85rem;
+            max-width: 340px;
+            font-size: 0.8rem;
             color: #888888;
         }
         #loading {
             position: absolute;
             color: #ffffff;
-            font-size: 1rem;
+            font-size: 0.9rem;
             background: rgba(0,0,0,0.7);
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 6px;
             display: none;
             z-index: 10;
         }
 
-        /* Estilos para la botonera de interacción superior */
         .interaccion-container {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             justify-content: center;
             align-items: center;
             width: 100%;
@@ -175,19 +178,21 @@
             background: #1a1a1a;
             border: 1px solid #444;
             color: #bbb;
-            padding: 6px 14px;
+            padding: 5px 10px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: all 0.25s ease;
+            flex: 1;
+            justify-content: center;
         }
 
         .btn-accion svg {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             fill: currentColor;
             flex-shrink: 0;
         }
@@ -211,8 +216,8 @@
         }
 
         @media (max-width: 580px) {
-            h1 { font-size: 1.5rem; }
-            select, button { padding: 6px 10px; font-size: 0.8rem; }
+            h1 { font-size: 1.4rem; }
+            select, button { padding: 5px 8px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -223,11 +228,14 @@
     </header>
 
     <div class="viewer-section">
-        <!-- Controles estructurados en 3 filas (Opción A) -->
+        <!-- Controles estructurados -->
         <div class="controls-wrapper">
-            <!-- Fila 1: Home y Desplegable por bloques -->
+            <!-- Fila 1: Home, Botón de Libro Cuadrado y Desplegable por bloques -->
             <div class="controls-row">
-                <button id="homeBtn">🏠 Home</button>
+                <button id="homeBtn">🏠</button>
+                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" style="text-decoration: none;">
+                    <button class="btn-book-square" title="¿Deseas el libro en papel?">📖</button>
+                </a>
                 <select id="blockSelect" class="block-select"></select>
             </div>
             <!-- Fila 2: Anterior, Siguiente y Aleatoria -->
@@ -236,13 +244,8 @@
                 <button id="nextBtn">Siguiente &rarr;</button>
                 <button id="randomBtn">🎲 Aleatoria</button>
             </div>
-            <!-- Fila 3: Botones de interacción (Huella, Ruta) y enlace al libro en papel -->
+            <!-- Fila 3: Botones de interacción (Huella, Ruta) -->
             <div class="controls-row" id="botonesAccionContainer"></div>
-            <div class="controls-row">
-                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" style="text-decoration: none; width: 100%;">
-                    <button class="btn-book">📖 ¿Deseas el libro en papel?</button>
-                </a>
-            </div>
         </div>
 
         <div class="canvas-container">
