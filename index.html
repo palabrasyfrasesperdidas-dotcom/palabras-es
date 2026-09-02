@@ -50,43 +50,39 @@
             padding: 10px 15px;
         }
 
-        /* Barra de navegación superior independiente y discreta */
+        /* Barra de navegación superior alineada estrictamente al bloque central (340px) */
         .top-navbar {
             display: flex;
-            justify-content: flex-end;
             width: 100%;
-            max-width: 650px;
-            gap: 8px;
-            margin-bottom: 4px;
+            max-width: 340px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
 
         .btn-navbar {
-            background-color: #141414;
-            border: 1px solid #2a2a2a;
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
             color: #cccccc;
-            padding: 4px 10px;
+            padding: 5px 8px;
             font-size: 0.75rem;
-            border-radius: 4px;
+            border-radius: 6px;
             text-decoration: none;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 5px;
             transition: all 0.2s ease;
             cursor: pointer;
+            flex: 1;
         }
         .btn-navbar:hover {
-            background-color: #222222;
-            border-color: #444444;
+            background-color: #2a2a2a;
+            border-color: #555555;
             color: #ffffff;
         }
-        .btn-navbar.book-nav {
-            background-color: #121d12;
-            border-color: #233d23;
-            color: #a3d9a3;
-        }
         .btn-navbar.book-nav:hover {
-            background-color: #1a2d1a;
-            border-color: #386138;
+            border-color: #436b43;
+            color: #b8f2b8;
         }
 
         header {
@@ -246,7 +242,7 @@
 </head>
 <body>
 
-    <!-- Barra de navegación superior independiente -->
+    <!-- Barra de navegación superior alineada simétricamente -->
     <div class="top-navbar">
         <button id="homeBtn" class="btn-navbar">🏠 Home</button>
         <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" class="btn-navbar book-nav">
@@ -640,7 +636,7 @@
         if (nextBtn) {
             nextBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (currentIndex < currentFilteredFrases.length - 1) {
+                if (currentIndex < currentFilteredFrases.length - 1)  {
                     currentIndex++;
                     renderCurrentHuella();
                 }
