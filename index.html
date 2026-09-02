@@ -68,7 +68,7 @@
             align-items: center;
         }
         
-        /* Controles ajustados al nuevo ancho del canvas */
+        /* Controles ajustados al ancho del canvas */
         .controls-wrapper {
             display: flex;
             flex-direction: column;
@@ -97,7 +97,7 @@
             touch-action: manipulation;
         }
         select.block-select {
-            flex-grow: 1;
+            width: 100%;
             font-family: 'Montserrat', sans-serif;
         }
         select:hover, button:hover:not(:disabled) {
@@ -109,24 +109,37 @@
             cursor: not-allowed;
         }
 
-        /* Botón de compra cuadrado ubicado junto a Home */
-        .btn-book-square {
-            background-color: #141a14;
-            border-color: #2e4a2e;
-            color: #b8f2b8;
-            aspect-ratio: 1;
+        /* Botones superiores con texto claro y equilibrados */
+        .btn-top-nav {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            color: #ffffff;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 10px;
-            font-size: 1rem;
+            gap: 6px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s, border-color 0.2s;
         }
-        .btn-book-square:hover {
+        .btn-top-nav:hover {
+            background-color: #2a2a2a;
+            border-color: #555555;
+        }
+        .btn-book-top {
+            background-color: #141a14;
+            border-color: #2e4a2e;
+            color: #b8f2b8;
+        }
+        .btn-book-top:hover {
             background-color: #1c2e1c;
             border-color: #436b43;
         }
 
-        /* Contenedor del vídeo optimizado a 340px para ganar espacio vertical */
+        /* Contenedor del vídeo optimizado a 340px */
         .canvas-container {
             position: relative;
             width: 100%;
@@ -230,21 +243,24 @@
     <div class="viewer-section">
         <!-- Controles estructurados -->
         <div class="controls-wrapper">
-            <!-- Fila 1: Home, Botón de Libro Cuadrado y Desplegable por bloques -->
+            <!-- Fila 1: Botón Home y Botón Libro en Papel con texto -->
             <div class="controls-row">
-                <button id="homeBtn">🏠</button>
-                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" style="text-decoration: none;">
-                    <button class="btn-book-square" title="¿Deseas el libro en papel?">📖</button>
+                <button id="homeBtn" class="btn-top-nav">🏠 Home</button>
+                <a href="https://www.amazon.es/s?k=palabras+y+frases+perdidas&i=stripbooks&__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1ZPGSHGXCHVB0&sprefix=palabras+y+frases+perdidas%2Cstripbooks%2C135&ref=nb_sb_noss" target="_blank" class="btn-top-nav btn-book-top">
+                    📖 Libro en papel
                 </a>
+            </div>
+            <!-- Fila 2: Selector de bloques -->
+            <div class="controls-row">
                 <select id="blockSelect" class="block-select"></select>
             </div>
-            <!-- Fila 2: Anterior, Siguiente y Aleatoria -->
+            <!-- Fila 3: Anterior, Siguiente y Aleatoria -->
             <div class="controls-row">
                 <button id="prevBtn">&larr; Anterior</button>
                 <button id="nextBtn">Siguiente &rarr;</button>
                 <button id="randomBtn">🎲 Aleatoria</button>
             </div>
-            <!-- Fila 3: Botones de interacción (Huella, Ruta) -->
+            <!-- Fila 4: Botones de interacción (Huella, Ruta) -->
             <div class="controls-row" id="botonesAccionContainer"></div>
         </div>
 
